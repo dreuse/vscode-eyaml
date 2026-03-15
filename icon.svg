@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2D5AA0"/>
+      <stop offset="100%" stop-color="#1A3A6A"/>
+    </linearGradient>
+  </defs>
+  <!-- Background rounded rect -->
+  <rect x="4" y="4" width="120" height="120" rx="16" fill="url(#bg)"/>
+  <!-- Document shape -->
+  <path d="M36 20 L82 20 L96 34 L96 88 L36 88 Z" fill="#ffffff" opacity="0.95"/>
+  <path d="M82 20 L82 34 L96 34 Z" fill="#d0d8e8"/>
+  <!-- YAML indent lines -->
+  <rect x="44" y="38" width="36" height="4" rx="2" fill="#4A7BC7"/>
+  <rect x="50" y="48" width="30" height="4" rx="2" fill="#6B9BD2"/>
+  <rect x="50" y="58" width="24" height="4" rx="2" fill="#6B9BD2"/>
+  <rect x="44" y="68" width="32" height="4" rx="2" fill="#4A7BC7"/>
+  <rect x="50" y="78" width="28" height="4" rx="2" fill="#6B9BD2"/>
+  <!-- Lock icon -->
+  <g transform="translate(72, 72)">
+    <circle cx="20" cy="20" r="22" fill="#1A3A6A" opacity="0.9"/>
+    <!-- Lock shackle -->
+    <path d="M13 18 L13 13 Q13 6 20 6 Q27 6 27 13 L27 18" stroke="#FFD54F" stroke-width="3" fill="none" stroke-linecap="round"/>
+    <!-- Lock body -->
+    <rect x="10" y="18" width="20" height="14" rx="3" fill="#FFD54F"/>
+    <!-- Keyhole -->
+    <circle cx="20" cy="24" r="2.5" fill="#1A3A6A"/>
+    <rect x="18.75" y="24" width="2.5" height="4" fill="#1A3A6A"/>
+  </g>
+</svg>

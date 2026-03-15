@@ -1,0 +1,164 @@
+{
+  "name": "vscode-eyaml",
+  "displayName": "Hiera eyaml",
+  "description": "Transparent editing of hiera-eyaml encrypted YAML files — auto-decrypt on open, auto-encrypt on save",
+  "version": "0.1.0",
+  "publisher": "sueder",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dreuse/vscode-eyaml"
+  },
+  "homepage": "https://github.com/dreuse/vscode-eyaml#readme",
+  "bugs": {
+    "url": "https://github.com/dreuse/vscode-eyaml/issues"
+  },
+  "icon": "icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "eyaml",
+    "hiera",
+    "puppet",
+    "yaml",
+    "encryption",
+    "pkcs7"
+  ],
+  "activationEvents": [
+    "onLanguage:yaml",
+    "workspaceContains:**/*.eyaml"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Hiera eyaml",
+      "properties": {
+        "eyaml.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable the eyaml extension"
+        },
+        "eyaml.binPath": {
+          "type": "string",
+          "default": "eyaml",
+          "description": "Path to the eyaml binary"
+        },
+        "eyaml.privateKeyPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the PKCS7 private key (empty = eyaml defaults)"
+        },
+        "eyaml.publicKeyPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the PKCS7 public key (empty = eyaml defaults)"
+        },
+        "eyaml.encryptionMethod": {
+          "type": "string",
+          "default": "pkcs7",
+          "description": "Encryption method to use"
+        },
+        "eyaml.filePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/*.eyaml"
+          ],
+          "description": "Glob patterns for files to auto-decrypt on open"
+        },
+        "eyaml.autoDecryptYaml": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-decrypt .yaml/.yml files that contain ENC[] blocks"
+        },
+        "eyaml.codeLens": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show Encrypt/Decrypt CodeLens above YAML values"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "eyaml.toggleFile",
+        "title": "eyaml: Toggle Encrypted/Decrypted View"
+      },
+      {
+        "command": "eyaml.decryptFile",
+        "title": "eyaml: Decrypt Current File"
+      },
+      {
+        "command": "eyaml.encryptValue",
+        "title": "eyaml: Encrypt Value"
+      },
+      {
+        "command": "eyaml.decryptValue",
+        "title": "eyaml: Decrypt Value"
+      },
+      {
+        "command": "eyaml.encryptAllValues",
+        "title": "eyaml: Encrypt All Values"
+      },
+      {
+        "command": "eyaml.decryptAllValues",
+        "title": "eyaml: Decrypt All Values"
+      }
+    ],
+    "menus": {
+      "editor/context": [
+        {
+          "command": "eyaml.encryptValue",
+          "when": "resourceScheme == file && resourceLangId == yaml",
+          "group": "eyaml@1"
+        },
+        {
+          "command": "eyaml.decryptValue",
+          "when": "resourceScheme == file && resourceLangId == yaml",
+          "group": "eyaml@2"
+        },
+        {
+          "command": "eyaml.encryptAllValues",
+          "when": "resourceScheme == file && resourceLangId == yaml",
+          "group": "eyaml@3"
+        },
+        {
+          "command": "eyaml.decryptAllValues",
+          "when": "resourceScheme == file && resourceLangId == yaml",
+          "group": "eyaml@4"
+        }
+      ]
+    },
+    "languages": [
+      {
+        "id": "yaml",
+        "extensions": [
+          ".eyaml"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "vsce package",
+    "lint": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/picomatch": "^3.0.1",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.24.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "picomatch": "^4.0.2"
+  }
+}

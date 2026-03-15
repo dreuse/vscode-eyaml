@@ -1,0 +1,7 @@
+node_modules/
+dist/
+*.vsix
+.decrypted~*
+keys/
+test-fixtures/
+.DS_Store
