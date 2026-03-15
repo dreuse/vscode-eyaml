@@ -4,9 +4,6 @@ on:
   push:
     tags: ["v*"]
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -24,10 +21,9 @@ jobs:
       - run: npm test
       - run: npx @vscode/vsce package --allow-missing-repository
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: "*.vsix"
-          generate_release_notes: true
+        run: gh release create "${{ github.ref_name }}" *.vsix --generate-notes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to VS Code Marketplace
         run: npx @vscode/vsce publish --allow-missing-repository
         env:
