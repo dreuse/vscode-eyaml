@@ -12,3 +12,4 @@ src/__tests__/
 CHANGELOG.md
 vitest.config.*
 icon.svg
+.github/
