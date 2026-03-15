@@ -3,7 +3,7 @@
   "displayName": "Hiera eyaml",
   "description": "Transparent editing of hiera-eyaml encrypted YAML files — auto-decrypt on open, auto-encrypt on save",
   "version": "0.1.0",
-  "publisher": "sueder",
+  "publisher": "dreuse",
   "license": "MIT",
   "repository": {
     "type": "git",
