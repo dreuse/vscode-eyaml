@@ -2,7 +2,7 @@
   "name": "easy-eyaml",
   "displayName": "Easy eyaml",
   "description": "Transparent editing of hiera-eyaml encrypted YAML files — auto-decrypt on open, auto-encrypt on save",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "dreuse",
   "license": "MIT",
   "repository": {
