@@ -75,6 +75,9 @@ async function handleEditorChange(
   updateStatusBar(editor);
   if (!editor || suppressAutoDecrypt) return;
 
+  const activeTab = vscode.window.tabGroups.activeTabGroup.activeTab;
+  if (activeTab?.input instanceof vscode.TabInputTextDiff) return;
+
   const config = getConfig();
   const uri = editor.document.uri;
   const content = editor.document.getText();
