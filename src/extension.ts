@@ -64,6 +64,17 @@ export function activate(context: vscode.ExtensionContext): void {
     ),
   );
 
+  const fileWatcher = vscode.workspace.createFileSystemWatcher(
+    "**/*.{eyaml,yaml,yml}",
+  );
+  context.subscriptions.push(fileWatcher);
+  context.subscriptions.push(
+    fileWatcher.onDidChange((uri) => {
+      if (!provider.hasEntry(uri) || provider.isWriting(uri.fsPath)) return;
+      provider.cleanup(uri.with({ scheme: EYAML_SCHEME }));
+    }),
+  );
+
   updateStatusBar(vscode.window.activeTextEditor);
 }
 
@@ -130,11 +141,6 @@ async function toggleFile(): Promise<void> {
     } finally {
       suppressAutoDecrypt = false;
     }
-  } else if (provider.hasEntry(uri)) {
-    const decryptedUri = provider.getDecryptedUri(uri);
-    await vscode.window.showTextDocument(decryptedUri, {
-      viewColumn: editor.viewColumn,
-    });
   } else {
     await decryptCurrentFile();
   }

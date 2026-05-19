@@ -106,8 +106,9 @@ export async function encryptValueAtCursor(
 
   try {
     const encrypted = await encryptString(plaintext, config);
+    const safeValue = quoteIfNeeded(encrypted);
     await activeEditor.edit((editBuilder) => {
-      editBuilder.replace(targetRange, encrypted);
+      editBuilder.replace(targetRange, safeValue);
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);

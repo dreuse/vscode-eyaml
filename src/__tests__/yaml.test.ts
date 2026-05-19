@@ -17,6 +17,11 @@ describe("quoteIfNeeded", () => {
     expect(quoteIfNeeded("greater > than")).toBe('"greater > than"');
   });
 
+  it("quotes ENC blocks for YAML safety", () => {
+    const encValue = "ENC[PKCS7,MIIBiQYJKoZIhvcNAQcD+abc123/==]";
+    expect(quoteIfNeeded(encValue)).toBe(`"${encValue}"`);
+  });
+
   it("quotes values with leading or trailing whitespace", () => {
     expect(quoteIfNeeded(" leading")).toBe('" leading"');
     expect(quoteIfNeeded("trailing ")).toBe('"trailing "');

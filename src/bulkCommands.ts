@@ -76,7 +76,7 @@ export async function encryptAllValues(): Promise<void> {
 
     await editor.edit((editBuilder) => {
       for (let i = 0; i < values.length; i++) {
-        editBuilder.replace(values[i].range, encrypted[i]);
+        editBuilder.replace(values[i].range, quoteIfNeeded(encrypted[i]));
       }
     });
   } catch (error) {

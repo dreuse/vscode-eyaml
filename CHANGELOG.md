@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.3
+
+### Fixed
+
+- Toggling to decrypted view now always re-decrypts from disk instead of showing stale cached content
+- Encrypted values (`ENC[PKCS7,...]`) are now properly quoted in YAML to prevent parser warnings
+- File watcher invalidates decrypted cache when the underlying file changes externally (git pull, other editors)
+
 ## 0.1.0
 
 Initial release.

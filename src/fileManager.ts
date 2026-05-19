@@ -13,6 +13,7 @@ interface DecryptedEntry {
 export class EyamlFileSystemProvider implements vscode.FileSystemProvider {
   private entries = new Map<string, DecryptedEntry>();
   private emitter = new vscode.EventEmitter<vscode.FileChangeEvent[]>();
+  private writingPaths = new Set<string>();
   readonly onDidChangeFile = this.emitter.event;
 
   watch(): vscode.Disposable {
@@ -48,10 +49,15 @@ export class EyamlFileSystemProvider implements vscode.FileSystemProvider {
     const config = getConfig();
     const encrypted = await encryptContent(textContent, config);
     const originalUri = uri.with({ scheme: "file" });
-    await vscode.workspace.fs.writeFile(
-      originalUri,
-      Buffer.from(encrypted, "utf-8"),
-    );
+    this.writingPaths.add(originalUri.fsPath);
+    try {
+      await vscode.workspace.fs.writeFile(
+        originalUri,
+        Buffer.from(encrypted, "utf-8"),
+      );
+    } finally {
+      setTimeout(() => this.writingPaths.delete(originalUri.fsPath), 1500);
+    }
 
     entry.content = content;
     entry.checksum = newChecksum;
@@ -105,6 +111,10 @@ export class EyamlFileSystemProvider implements vscode.FileSystemProvider {
 
   getOriginalUri(decryptedUri: vscode.Uri): vscode.Uri {
     return decryptedUri.with({ scheme: "file" });
+  }
+
+  isWriting(fsPath: string): boolean {
+    return this.writingPaths.has(fsPath);
   }
 
   cleanup(uri: vscode.Uri): void {
