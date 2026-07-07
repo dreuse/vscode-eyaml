@@ -2,7 +2,7 @@
   "name": "easy-eyaml",
   "displayName": "Easy eyaml",
   "description": "Transparent editing of hiera-eyaml encrypted YAML files — auto-decrypt on open, auto-encrypt on save",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "publisher": "dreuse",
   "license": "MIT",
   "repository": {
@@ -47,20 +47,40 @@
           "default": "eyaml",
           "description": "Path to the eyaml binary"
         },
-        "eyaml.privateKeyPath": {
-          "type": "string",
-          "default": "",
-          "description": "Path to the PKCS7 private key (empty = eyaml defaults)"
-        },
-        "eyaml.publicKeyPath": {
-          "type": "string",
-          "default": "",
-          "description": "Path to the PKCS7 public key (empty = eyaml defaults)"
-        },
         "eyaml.encryptionMethod": {
           "type": "string",
           "default": "pkcs7",
           "description": "Encryption method to use"
+        },
+        "eyaml.privateKeyPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the PKCS7 private key (empty = eyaml defaults). Used when encryptionMethod is pkcs7"
+        },
+        "eyaml.publicKeyPath": {
+          "type": "string",
+          "default": "",
+          "description": "Path to the PKCS7 public key (empty = eyaml defaults). Used when encryptionMethod is pkcs7"
+        },
+        "eyaml.gnupgHomeDir": {
+          "type": "string",
+          "default": "",
+          "description": "Define if you need to change base .gnupg dir. Used when encryptionMethod is gpg. Optional"
+        },
+        "eyaml.gpgAlwaysTrust": {
+          "type": "boolean",
+          "default": true,
+          "description": "Use always trust parameter for GPG recipients. Used when encryptionMethod is gpg. Optional"
+        },
+        "eyaml.gpgRecipients": {
+          "type": "string",
+          "default": "",
+          "description": "Comma-separated recipients list. Use when not use gpgRecipientsFilePath. Used when encryptionMethod is gpg."
+        },
+        "eyaml.gpgRecipientsFilePath": {
+          "type": "string",
+          "default": "",
+          "description": "Relative path to recipients list file. Use when not use gpgRecipients. Used when encryptionMethod is gpg."
         },
         "eyaml.filePatterns": {
           "type": "array",

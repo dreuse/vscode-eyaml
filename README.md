@@ -26,9 +26,10 @@ Install from the VS Code Marketplace or search for "Hiera eyaml" in the Extensio
 |---------|---------|-------------|
 | `eyaml.enabled` | `true` | Enable/disable the extension |
 | `eyaml.binPath` | `"eyaml"` | Path to the eyaml binary |
-| `eyaml.privateKeyPath` | `""` | Path to the PKCS7 private key (empty = auto-discover) |
-| `eyaml.publicKeyPath` | `""` | Path to the PKCS7 public key (empty = auto-discover) |
-| `eyaml.encryptionMethod` | `"pkcs7"` | Encryption method |
+| `eyaml.privateKeyPath` | `""` | Path to the PKCS7 private key (empty = auto-discover). Used only when `encryptionMethod` are `pkcs7` |
+| `eyaml.publicKeyPath` | `""` | Path to the PKCS7 public key (empty = auto-discover). Used only when `encryptionMethod` are `pkcs7` |
+| `eyaml.gpgRecipientsFilePath` | `""` | Path to the recipients file when use gpgRecipientsFilePath. Used only when `encryptionMethod` are `gpg`. If not defined (empty string) then will not be used |
+| `eyaml.encryptionMethod` | `"pkcs7"` | Encryption method. Supported values are `gpg` and `pkcs7` |
 | `eyaml.filePatterns` | `["**/*.eyaml"]` | Glob patterns for files to auto-decrypt on open |
 | `eyaml.autoDecryptYaml` | `true` | Auto-decrypt `.yaml`/`.yml` files containing `ENC[]` blocks |
 | `eyaml.codeLens` | `false` | Show Encrypt/Decrypt CodeLens above YAML values |
