@@ -28,7 +28,10 @@ Install from the VS Code Marketplace or search for "Hiera eyaml" in the Extensio
 | `eyaml.binPath` | `"eyaml"` | Path to the eyaml binary |
 | `eyaml.privateKeyPath` | `""` | Path to the PKCS7 private key (empty = auto-discover). Used only when `encryptionMethod` are `pkcs7` |
 | `eyaml.publicKeyPath` | `""` | Path to the PKCS7 public key (empty = auto-discover). Used only when `encryptionMethod` are `pkcs7` |
-| `eyaml.gpgRecipientsFilePath` | `""` | Path to the recipients file when use gpgRecipientsFilePath. Used only when `encryptionMethod` are `gpg`. If not defined (empty string) then will not be used |
+| `eyaml.gnupgHomeDir` | `""` | Define .gnupg directory (full path) if you need to use not user-defined .gnupg. Used only when `encryptionMethod` are `gpg`. Not in use if not defined |
+| `eyaml.gpgAlwaysTrust` | `true` | Use parameter --gpg-always-trust on encryption. Used only when `encryptionMethod` are `gpg`  |
+| `eyaml.gpgRecipients` | `""` | Comma-separated recipients list. Used only when `encryptionMethod` are `gpg`. Use only if gpgRecipientsFilePath is empty (empty string) |
+| `eyaml.gpgRecipientsFilePath` | `""` | Path to the recipients file when use gpgRecipientsFilePath. Used only when `encryptionMethod` are `gpg`. Use only if gpgRecipients is empty (empty string) |
 | `eyaml.encryptionMethod` | `"pkcs7"` | Encryption method. Supported values are `gpg` and `pkcs7` |
 | `eyaml.filePatterns` | `["**/*.eyaml"]` | Glob patterns for files to auto-decrypt on open |
 | `eyaml.autoDecryptYaml` | `true` | Auto-decrypt `.yaml`/`.yml` files containing `ENC[]` blocks |
