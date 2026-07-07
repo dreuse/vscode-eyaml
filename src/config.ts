@@ -12,6 +12,7 @@ export interface EyamlConfig {
   encryptionMethod: string;
   filePatterns: string[];
   autoDecryptYaml: boolean;
+  gpgRecipientsFilePath: string;
 }
 
 const IS_WINDOWS = platform() === "win32";
@@ -92,6 +93,7 @@ export function getConfig(): EyamlConfig {
     encryptionMethod: section.get<string>("encryptionMethod", "pkcs7"),
     filePatterns: section.get<string[]>("filePatterns", ["**/*.eyaml"]),
     autoDecryptYaml: section.get<boolean>("autoDecryptYaml", true),
+    gpgRecipientsFilePath: section.get<string>("gpgRecipientsFilePath", ""),
   };
 }
 
@@ -103,6 +105,9 @@ export function buildKeyArgs(config: EyamlConfig): string[] {
   }
   if (config.publicKeyPath) {
     args.push("--pkcs7-public-key", config.publicKeyPath);
+  }
+  if (config.gpgRecipientsFilePath) {
+    args.push("--gpg-always-trust --gpg-recipients-file", config.gpgRecipientsFilePath);
   }
 
   return args;
