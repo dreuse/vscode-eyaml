@@ -31,7 +31,7 @@ Install from the VS Code Marketplace or search for "Hiera eyaml" in the Extensio
 | `eyaml.gnupgHomeDir` | `""` | Define .gnupg directory (full path) if you need to use not user-defined .gnupg. Used only when `encryptionMethod` are `gpg`. Not in use if not defined |
 | `eyaml.gpgAlwaysTrust` | `true` | Use parameter --gpg-always-trust on encryption. Used only when `encryptionMethod` are `gpg`  |
 | `eyaml.gpgRecipients` | `""` | Comma-separated recipients list. Used only when `encryptionMethod` are `gpg`. Use only if gpgRecipientsFilePath is empty (empty string) |
-| `eyaml.gpgRecipientsFilePath` | `""` | Path to the recipients file when use gpgRecipientsFilePath. Used only when `encryptionMethod` are `gpg`. Use only if gpgRecipients is empty (empty string) |
+| `eyaml.gpgRecipientsFilePath` | `""` | Path to the recipients file when use gpgRecipientsFilePath. Uses relative path from workspace dir of your current active file (multiple projects into workspace supported, but requires identical file placementeds)! Used only when `encryptionMethod` are `gpg`. Use only if gpgRecipients is empty (empty string) |
 | `eyaml.encryptionMethod` | `"pkcs7"` | Encryption method. Supported values are `gpg` and `pkcs7` |
 | `eyaml.filePatterns` | `["**/*.eyaml"]` | Glob patterns for files to auto-decrypt on open |
 | `eyaml.autoDecryptYaml` | `true` | Auto-decrypt `.yaml`/`.yml` files containing `ENC[]` blocks |

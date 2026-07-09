@@ -2,7 +2,7 @@
   "name": "easy-eyaml",
   "displayName": "Easy eyaml",
   "description": "Transparent editing of hiera-eyaml encrypted YAML files — auto-decrypt on open, auto-encrypt on save",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "publisher": "dreuse",
   "license": "MIT",
   "repository": {
@@ -80,7 +80,7 @@
         "eyaml.gpgRecipientsFilePath": {
           "type": "string",
           "default": "",
-          "description": "Relative path to recipients list file. Use when not use gpgRecipients. Used when encryptionMethod is gpg."
+          "description": "Relative path to recipients list file. Use when not use gpgRecipients. Uses relative path from your workspace dir of active file (multiworkspace support)! Used when encryptionMethod is gpg."
         },
         "eyaml.filePatterns": {
           "type": "array",

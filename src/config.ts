@@ -49,6 +49,14 @@ function resolveBinPath(explicit: string): string {
   return explicit;
 }
 
+function getDocumentWorkspaceFolder(): string | undefined {
+  const fileName = vscode.window.activeTextEditor?.document.fileName;
+  return vscode.workspace.workspaceFolders
+    ?.map((folder) => folder.uri.fsPath)
+    .filter((fsPath) => fileName?.startsWith(fsPath))[0];
+}
+
+
 function getKeySearchDirs(): string[] {
   const dirs: string[] = [];
 
@@ -67,6 +75,8 @@ function getKeySearchDirs(): string[] {
 
   return dirs;
 }
+
+
 
 function resolveKeyPath(
   explicit: string,
@@ -105,6 +115,7 @@ export function getConfig(): EyamlConfig {
 
 export function buildKeyArgs(config: EyamlConfig): string[] {
   const args: string[] = [];
+
   if (config.encryptionMethod == "pkcs7") {
     if (config.privateKeyPath) {
       args.push("--pkcs7-private-key", config.privateKeyPath);
@@ -121,7 +132,9 @@ export function buildKeyArgs(config: EyamlConfig): string[] {
       args.push("--gpg-recipients", config.gpgRecipients);
     }
     if (config.gpgRecipientsFilePath != "") {
-      args.push("--gpg-recipients-file", config.gpgRecipientsFilePath);
+      let workdir: string;
+      workdir = (typeof getDocumentWorkspaceFolder() === 'undefined') ? process.cwd() : getDocumentWorkspaceFolder();
+      args.push("--gpg-recipients-file", join(workdir, config.gpgRecipientsFilePath));
     }
     if (config.gnupgHomeDir != "") {
       args.push("--gpg-gnupghome", config.gnupgHomeDir);
