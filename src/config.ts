@@ -12,6 +12,10 @@ export interface EyamlConfig {
   encryptionMethod: string;
   filePatterns: string[];
   autoDecryptYaml: boolean;
+  gpgRecipients: string;
+  gpgRecipientsFilePath: string;
+  gnupgHomeDir: string;
+  gpgAlwaysTrust: boolean;
 }
 
 const IS_WINDOWS = platform() === "win32";
@@ -45,6 +49,14 @@ function resolveBinPath(explicit: string): string {
   return explicit;
 }
 
+function getDocumentWorkspaceFolder(): string | undefined {
+  const fileName = vscode.window.activeTextEditor?.document.fileName;
+  return vscode.workspace.workspaceFolders
+    ?.map((folder) => folder.uri.fsPath)
+    .filter((fsPath) => fileName?.startsWith(fsPath))[0];
+}
+
+
 function getKeySearchDirs(): string[] {
   const dirs: string[] = [];
 
@@ -63,6 +75,8 @@ function getKeySearchDirs(): string[] {
 
   return dirs;
 }
+
+
 
 function resolveKeyPath(
   explicit: string,
@@ -92,17 +106,39 @@ export function getConfig(): EyamlConfig {
     encryptionMethod: section.get<string>("encryptionMethod", "pkcs7"),
     filePatterns: section.get<string[]>("filePatterns", ["**/*.eyaml"]),
     autoDecryptYaml: section.get<boolean>("autoDecryptYaml", true),
+    gpgRecipients: section.get<string>("gpgRecipients", ""),
+    gpgRecipientsFilePath: section.get<string>("gpgRecipientsFilePath", ""),
+    gnupgHomeDir: section.get<string>("gnupgHomeDir", ""),
+    gpgAlwaysTrust: section.get<boolean>("gpgAlwaysTrust", true),
   };
 }
 
 export function buildKeyArgs(config: EyamlConfig): string[] {
   const args: string[] = [];
 
-  if (config.privateKeyPath) {
-    args.push("--pkcs7-private-key", config.privateKeyPath);
+  if (config.encryptionMethod == "pkcs7") {
+    if (config.privateKeyPath) {
+      args.push("--pkcs7-private-key", config.privateKeyPath);
+    }
+    if (config.publicKeyPath) {
+      args.push("--pkcs7-public-key", config.publicKeyPath);
+    }
   }
-  if (config.publicKeyPath) {
-    args.push("--pkcs7-public-key", config.publicKeyPath);
+  if (config.encryptionMethod == "gpg") {
+    if (config.gpgAlwaysTrust) {
+      args.push("--gpg-always-trust");
+    }
+    if (config.gpgRecipients != "") {
+      args.push("--gpg-recipients", config.gpgRecipients);
+    }
+    if (config.gpgRecipientsFilePath != "") {
+      let workdir: string;
+      workdir = (typeof getDocumentWorkspaceFolder() === 'undefined') ? process.cwd() : getDocumentWorkspaceFolder();
+      args.push("--gpg-recipients-file", join(workdir, config.gpgRecipientsFilePath));
+    }
+    if (config.gnupgHomeDir != "") {
+      args.push("--gpg-gnupghome", config.gnupgHomeDir);
+    }
   }
 
   return args;
